@@ -1,0 +1,12 @@
+{
+    "constraints": [
+        {
+            "path": "/ts/leave-request-days/api/LeaveRequestDaysService.ts",
+            "method": "POST",
+            "scope": "HTTP",
+            "roles": [
+                "PUBLIC"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "name": "LEAVE_REQUESTS",
+    "type": "TABLE",
+    "columns": [
+        {
+            "type": "INTEGER",
+            "length": 0,
+            "primaryKey": true,
+            "identity": true,
+            "precision": "",
+            "scale": "",
+            "nullable": true,
+            "name": "ID",
+            "unique": true,
+            "defaultValue": ""
+        },
+        {
+            "type": "DATE",
+            "length": 20,
+            "precision": "",
+            "scale": "",
+            "name": "FROM_DATE",
+            "primaryKey": false,
+            "unique": false,
+            "nullable": false
+        },
+        {
+            "type": "DATE",
+            "length": 20,
+            "precision": "",
+            "scale": "",
+            "name": "TO_DATE",
+            "primaryKey": false,
+            "unique": false,
+            "nullable": false
+        },
+        {
+            "type": "INTEGER",
+            "length": 8,
+            "precision": "",
+            "scale": "",
+            "name": "REQUESTED_DAYS",
+            "primaryKey": false,
+            "unique": false,
+            "nullable": true
+        }
+    ]
+}

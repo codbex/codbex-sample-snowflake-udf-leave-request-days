@@ -12,6 +12,11 @@ class SnowflakeService {
             const rowIndex: number = rowData[0];
 
             const params: any[] = rowData.slice(1);
+
+            // YYYY-MM-DD
+            const fromDate: string = params[0]; // 2023-09-01
+            const toDate: string = params[1]; // 2023-09-05
+            console.log(`Received fromDate [${fromDate}] and toDate [${toDate}] for index ${rowIndex}`);
             const functionReturnValue = params.join("|");
 
             const resultRow: [number, any] = [rowIndex, functionReturnValue];

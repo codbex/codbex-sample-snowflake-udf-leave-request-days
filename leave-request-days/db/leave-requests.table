@@ -15,6 +15,17 @@
             "defaultValue": ""
         },
         {
+            "name": "COUNTRY_ISO_CODE",
+            "type": "VARCHAR",
+            "length": "2",
+            "primaryKey": false,
+            "unique": false,
+            "nullable": false,
+            "defaultValue": "",
+            "precision": "",
+            "scale": ""
+        },
+        {
             "type": "DATE",
             "length": 20,
             "precision": "",

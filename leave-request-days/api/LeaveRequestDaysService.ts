@@ -29,8 +29,16 @@ class SnowflakeUDFService {
     }
 
     private calculateDays(countryIsoCode: string, fromDate: string, toDate: string): number {
-        const from = new Date(fromDate);
-        const to = new Date(toDate);
+        let from = new Date(fromDate);
+        let to = new Date(toDate);
+
+        if (from > to) {
+            const temp = from;
+            from = to;
+            to = temp;
+            const warnMessage = `From date [${fromDate}] is after to date [${toDate}]. Values will be swapped.`;
+            console.warn(warnMessage);
+        }
 
         // Ensure the period is inclusive
         to.setDate(to.getDate() + 1);
@@ -38,8 +46,7 @@ class SnowflakeUDFService {
         let totalLeaveDays = 0;
 
         for (let date = new Date(from); date < to; date.setDate(date.getDate() + 1)) {
-            // Check if the day is a weekday (0=Sunday, 6=Saturday)
-            if (this.isWeekDay(date)) {
+            if (this.isWeekday(date)) {
                 totalLeaveDays++;
             }
         }
@@ -47,7 +54,7 @@ class SnowflakeUDFService {
         return totalLeaveDays;
     }
 
-    private isWeekDay(date: Date): boolean {
+    private isWeekday(date: Date): boolean {
         const dayOfWeek = date.getDay();
         return dayOfWeek !== 0 && dayOfWeek !== 6; // 0=Sunday, 6=Saturday)
     }

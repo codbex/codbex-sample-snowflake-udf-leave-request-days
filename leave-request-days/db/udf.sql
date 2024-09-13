@@ -5,6 +5,6 @@ CREATE OR REPLACE FUNCTION calculate_leave_request_days (countryIsoCode string, 
   RETURNS integer
   SERVICE=codbex_kronos
   ENDPOINT='app-endpoint'
-  AS '/public/ts/leave-request-days/api/LeaveRequestDaysService.ts';
+  AS '/public/ts/leave-request-days/api/leave-request-days-service.ts';
 
 SELECT FROM_DATE, TO_DATE, calculate_leave_request_days(COUNTRY_ISO_CODE, FROM_DATE, TO_DATE) as leave_days FROM LEAVE_REQUESTS;

@@ -1,5 +1,7 @@
 import { Controller, Post } from "sdk/http"
 import { FunctionParamsDTO, FunctionResultDTO } from "./function-data-dto"
+import { OpenHolidaysAPIClient } from "./open-holidays-api-client"
+import { dateToString } from "./date-util";
 
 @Controller
 class SnowflakeUDFService {
@@ -29,24 +31,17 @@ class SnowflakeUDFService {
     }
 
     private calculateDays(countryIsoCode: string, fromDate: string, toDate: string): number {
-        let from = new Date(fromDate);
-        let to = new Date(toDate);
 
-        if (from > to) {
-            const temp = from;
-            from = to;
-            to = temp;
-            const warnMessage = `From date [${fromDate}] is after to date [${toDate}]. Values will be swapped.`;
-            console.warn(warnMessage);
-        }
+        const apiClient = new OpenHolidaysAPIClient();
+        const publicHolidays = apiClient.getPublicHolidays(countryIsoCode, fromDate, toDate);
 
-        // Ensure the period is inclusive
-        to.setDate(to.getDate() + 1);
+        const from = new Date(fromDate);
+        const to = new Date(toDate);
 
         let totalLeaveDays = 0;
 
-        for (let date = new Date(from); date < to; date.setDate(date.getDate() + 1)) {
-            if (this.isWeekday(date)) {
+        for (const date = new Date(from); date <= to; date.setDate(date.getDate() + 1)) {
+            if (this.isWeekday(date) && !publicHolidays.has(dateToString(date))) {
                 totalLeaveDays++;
             }
         }

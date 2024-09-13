@@ -2,10 +2,10 @@ import { Controller, Post } from "sdk/http"
 import { FunctionParamsDTO, FunctionResultDTO } from "./function-data-dto"
 
 @Controller
-class SnowflakeService {
+class SnowflakeUDFService {
 
     @Post("/")
-    public sendData(dto: FunctionParamsDTO): FunctionResultDTO {
+    public executeFunction(dto: FunctionParamsDTO): FunctionResultDTO {
         const resultRows: [number, any][] = [];
 
         dto.data.forEach((rowData) => {
@@ -13,12 +13,11 @@ class SnowflakeService {
 
             const params: any[] = rowData.slice(1);
 
-            // YYYY-MM-DD
-            const countryIsoCode: string = params[0]; // DE
-            const fromDate: string = params[1]; // 2023-09-01
-            const toDate: string = params[2]; // 2023-09-05
-            console.log(`Received countryIsoCode [${countryIsoCode}], fromDate [${fromDate}] and toDate [${toDate}] for index ${rowIndex}`);
-            const functionReturnValue = params.join("|");
+            const countryIsoCode: string = params[0]; // example: DE
+            const fromDate: string = params[1]; // YYYY-MM-DD
+            const toDate: string = params[2]; // YYYY-MM-DD
+            const totalLeaveDays = this.calculateDays(countryIsoCode, fromDate, toDate);
+            const functionReturnValue = totalLeaveDays;
 
             const resultRow: [number, any] = [rowIndex, functionReturnValue];
 
@@ -27,7 +26,30 @@ class SnowflakeService {
         return {
             data: resultRows
         };
+    }
 
+    private calculateDays(countryIsoCode: string, fromDate: string, toDate: string): number {
+        const from = new Date(fromDate);
+        const to = new Date(toDate);
+
+        // Ensure the period is inclusive
+        to.setDate(to.getDate() + 1);
+
+        let totalLeaveDays = 0;
+
+        for (let date = new Date(from); date < to; date.setDate(date.getDate() + 1)) {
+            // Check if the day is a weekday (0=Sunday, 6=Saturday)
+            if (this.isWeekDay(date)) {
+                totalLeaveDays++;
+            }
+        }
+
+        return totalLeaveDays;
+    }
+
+    private isWeekDay(date: Date): boolean {
+        const dayOfWeek = date.getDay();
+        return dayOfWeek !== 0 && dayOfWeek !== 6; // 0=Sunday, 6=Saturday)
     }
 
 }

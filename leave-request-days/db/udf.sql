@@ -7,4 +7,4 @@ CREATE OR REPLACE FUNCTION calculate_leave_request_days (countryIsoCode string, 
   ENDPOINT='app-endpoint'
   AS '/public/ts/leave-request-days/api/LeaveRequestDaysService.ts';
 
-SELECT calculate_leave_request_days(COUNTRY_ISO_CODE, FROM_DATE, TO_DATE) FROM LEAVE_REQUESTS;
+SELECT FROM_DATE, TO_DATE, calculate_leave_request_days(COUNTRY_ISO_CODE, FROM_DATE, TO_DATE) as leave_days FROM LEAVE_REQUESTS;

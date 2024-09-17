@@ -18,12 +18,6 @@ export class OpenHolidaysAPIClient {
                     name: "validTo",
                     value: toDate
                 }
-            ],
-            headers: [
-                {
-                    name: "Accept",
-                    value: "application/json"
-                }
             ]
         };
         const httpResponse = client.get("https://openholidaysapi.org/PublicHolidays", options);

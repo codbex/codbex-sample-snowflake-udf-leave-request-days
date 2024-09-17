@@ -1,0 +1,16 @@
+{
+    "files": [
+        {
+            "table": "LEAVE_REQUESTS",
+            "schema": "PUBLIC",
+            "file": "/leave-request-days/db/LEAVE_REQUESTS.csv",
+            "header": true,
+            "useHeaderNames": true,
+            "delimField": ",",
+            "delimEnclosing": "\"",
+            "distinguishEmptyFromNull": true,
+            "version": "1.0",
+            "upsert": true
+        }
+    ]
+}
